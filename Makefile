@@ -1,15 +1,15 @@
-MODULES= main gpa
+MODULES= gpa main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
+BIN=gpa
 OCAMLBUILD=ocamlbuild -use-ocamlfind 
 PKGS=unix,oUnit,str,ANSITerminal
 GIT_HASH=$(shell git log --pretty=format:'%h' -n 1)
 
-default: build
-	utop
+default: binary
 
 build:
 	$(OCAMLBUILD) $(OBJECTS) $(MAIN)
@@ -17,8 +17,8 @@ build:
 run:
 	$(OCAMLBUILD) $(OBJECTS) $(MAIN) && ./$(MAIN)
 
-zip:
-	zip OScrabble-$(GIT_HASH).zip *.ml* _tags Makefile  *.txt *.md
+binary: 
+	ocamlopt -o $(BIN) $(MLS) 
 
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
