@@ -13,6 +13,7 @@ let args (pargs : string list) =
   match pargs with
   | _::f::("4")::[] -> {file = f; scale = scale_40}
   | _::f::("4.3")::[] -> {file = f; scale = scale_43}
+  | _::f::[] -> {file = f; scale = scale_43}
   | _ -> print_endline "no arguments, using defaults"; {file = "grades.txt"; scale = scale_43}
 
 let _ = 
